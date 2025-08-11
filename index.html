@@ -2,125 +2,437 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>OpenStereoMatrix – Passive Surround Adapter for 2.0 Amplifiers</title>
+  <title>OpenStereoMatrix — Single‑Page Project (GPL‑3.0‑or‑later)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="OpenStereoMatrix: a single-page, HTML-only, passive adapter to drive 3.0, 4.0, 5.0, 2.1, and 5.1 speaker layouts from a 2.0 stereo amplifier. Fully documented with SVG schematics and step-by-step wiring guidance.">
   <style>
-    body {
-      margin: 0; padding: 0;
-      font-family: system-ui, sans-serif;
-      background-color: #0d1117;
-      color: #c9d1d9;
-      line-height: 1.6;
+    :root{
+      --bg:#0d1117; --panel:#111827; --ink:#c9d1d9; --mut:#8b949e; --hi:#ffffff;
+      --line:#30363d; --acc:#58a6ff; --accent2:#f0ab3d; --ok:#34d399; --warn:#f59e0b; --err:#ef4444;
     }
-    h1, h2, h3 { color: #ffffff; }
-    header, footer {
-      background-color: #161b22;
-      padding: 2rem;
-    }
-    main {
-      padding: 2rem;
-      max-width: 960px;
-      margin: auto;
-    }
-    section {
-      margin-bottom: 3rem;
-      border-bottom: 1px solid #30363d;
-      padding-bottom: 2rem;
-    }
-    svg {
-      background-color: #0d1117;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      margin-top: 1rem;
-      max-width: 100%;
-      height: auto;
-    }
-    code {
-      background-color: #161b22;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-family: monospace;
-    }
-    .note { color: #8b949e; font-size: 0.9em; }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0; font:16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif; background:var(--bg); color:var(--ink);}
+    a{color:var(--acc); text-decoration:none}
+    a:hover{text-decoration:underline}
+    header,footer{background:#0b1220; border-bottom:1px solid var(--line)}
+    header .wrap, main, footer .wrap{max-width:1100px; margin:0 auto; padding:24px}
+    h1,h2,h3{color:var(--hi); margin:0 0 12px}
+    h1{font-size:1.9rem} h2{font-size:1.4rem; margin-top:20px} h3{font-size:1.1rem; margin-top:16px}
+    p{margin:8px 0 12px}
+    .mut{color:var(--mut)}
+    .badge{display:inline-block; font-size:12px; padding:2px 8px; border:1px solid var(--line); border-radius:999px; margin-right:8px; color:#cfd6e4; background:#0f172a}
+    .toc{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; margin:12px 0 8px}
+    .card{background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:16px; margin:14px 0}
+    .warn{color:var(--warn); font-weight:600}
+    .ok{color:var(--ok); font-weight:600}
+    .err{color:var(--err); font-weight:600}
+    code, pre{background:#0f1628; border:1px solid var(--line); border-radius:6px; padding:2px 6px; color:#dbe6ff}
+    pre{padding:12px; overflow:auto}
+    table{width:100%; border-collapse:collapse; margin:10px 0}
+    th,td{border:1px solid var(--line); padding:8px; text-align:left; vertical-align:top}
+    th{background:#0f1628; color:#e6edf3}
+    .kv{display:grid; grid-template-columns:160px 1fr; gap:6px 16px}
+    .kv b{color:#e6edf3}
+    svg{width:100%; height:auto; background:#0c1324; border:1px solid var(--line); border-radius:8px; margin-top:10px}
+    .note{color:var(--mut); font-size:0.95em}
+    details{background:#0f1628; border:1px solid var(--line); border-radius:8px; padding:10px 12px; margin-top:12px}
+    summary{cursor:pointer; font-weight:600; color:#e6edf3}
+    .list-compact li{margin:4px 0}
+    hr{border:0; border-top:1px solid var(--line); margin:18px 0}
+    .right{float:right}
+    .small{font-size:.92em}
   </style>
 </head>
 <body>
 
 <header>
-  <h1>OpenStereoMatrix</h1>
-  <p>A passive wiring method to adapt 2.0 stereo amplifiers for expanded speaker layouts including 3.0, 4.0, 5.0, 2.1, and 5.1.</p>
+  <div class="wrap">
+    <h1>OpenStereoMatrix</h1>
+    <p class="mut">Passive, HTML-documented adapter to run 3.0, 4.0, 5.0, 2.1, and 5.1 speaker layouts from a classic 2.0 stereo amplifier — no images, no external assets, just clean wiring and solid theory.</p>
+    <span class="badge">Phantom Center (L+R)</span>
+    <span class="badge">Hafler Rears (L−R)</span>
+    <span class="badge">Active Sub Feed</span>
+    <span class="badge">GPL‑3.0‑or‑later</span>
+  </div>
 </header>
 
 <main>
 
-<section id="overview">
-  <h2>Overview</h2>
-  <p>This document provides standalone HTML diagrams and wiring guides for each mode supported by OpenStereoMatrix. No images, software, or external drawings are required — all logic is illustrated using basic SVG elements inside this file.</p>
-  <ul>
-    <li>Compatible with analog stereo amplifiers, provided load impedance and ground architecture are respected.</li>
-    <li>Recommended only for setups where the amplifier’s minimum impedance is known and respected.</li>
-    <li>All connections use resistive matrices; no active electronics are required.</li>
-    <li>License: <code>GPL-3.0-or-later</code></li>
-  </ul>
-</section>
+  <section id="intro" class="card">
+    <h2>Overview</h2>
+    <p>This single-page document contains the complete project: rationale, safety, schematics (drawn in SVG), wiring steps, recommended values, bill of materials, and licensing. It provides a professional, reproducible approach to derive a phantom center, ambience rears, and an active sub feed from standard stereo amplifier outputs.</p>
+    <div class="toc">
+      <div class="card">
+        <h3>Table of contents</h3>
+        <ul class="list-compact">
+          <li><a href="#safety">Safety & compatibility</a></li>
+          <li><a href="#quickstart">Quick start</a></li>
+          <li><a href="#modes">Modes & schematics</a></li>
+          <li><a href="#values">Recommended values</a></li>
+          <li><a href="#bom">Bill of materials</a></li>
+          <li><a href="#switching">Switching & layout</a></li>
+          <li><a href="#math">Impedance notes</a></li>
+          <li><a href="#testing">Testing & tuning</a></li>
+          <li><a href="#license">License</a></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>What this is</h3>
+        <ul class="list-compact">
+          <li>A passive, reversible matrix for 2.0 amplifiers</li>
+          <li>HTML-only documentation with SVG schematics</li>
+          <li>Center via L+R; rears via L−R; sub via divider</li>
+        </ul>
+        <h3>What this is not</h3>
+        <ul class="list-compact">
+          <li>Not discrete surround (no Dolby/DTS decode)</li>
+          <li>No DSP, no active mixing (unless separately added)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-<section id="mode-20">
-  <h2>Mode: 2.0 (Direct Stereo)</h2>
-  <p>Standard stereo connection. No additional wiring is necessary. Connect the amplifier’s left and right outputs directly to the respective front speakers.</p>
+  <section id="safety" class="card">
+    <h2>Safety & compatibility</h2>
+    <ul>
+      <li>Common-ground vs BTL/Class‑D: many modern amps are bridge-tied (per-channel floating). <span class="warn">Never tie negative terminals together</span> on non–common-ground amplifiers.</li>
+      <li>Phantom center requires a common ground reference. If unsure, avoid center wiring and use only the Hafler rears and sub feed with isolation.</li>
+      <li>Respect minimum load. Avoid dropping below the amplifier’s specified impedance.</li>
+      <li>Resistors in summing/attenuation paths dissipate heat. Use adequate power ratings and ventilation.</li>
+      <li>Start at low volume; check temperature rise after 15–30 minutes; adjust values if necessary.</li>
+    </ul>
+    <p class="note">When in doubt, use the Hafler rears (do not tie negatives) and an active sub with isolated high-level inputs or transformer isolation.</p>
+  </section>
 
-  <svg viewBox="0 0 700 180">
-    <rect x="20" y="60" width="140" height="60" rx="8" fill="#161b22" stroke="#30363d"/>
-    <text x="90" y="95" text-anchor="middle" font-size="14" fill="#c9d1d9">Amplifier</text>
+  <section id="quickstart" class="card">
+    <h2>Quick start</h2>
+    <ol>
+      <li>Confirm amplifier topology (common ground or BTL/Class‑D).</li>
+      <li>Select a mode (2.1, 3.0, 4.0, 5.0, 5.1) and review its schematic below.</li>
+      <li>Prepare resistors and connectors per the “Recommended values” and “BOM”.</li>
+      <li>Wire on a terminal block or inside a ventilated box. Double-check polarity.</li>
+      <li>Power on at minimum volume. Verify function and balance. Increase gradually.</li>
+    </ol>
+  </section>
 
-    <line x1="160" y1="80" x2="300" y2="80" stroke="#58a6ff" stroke-width="3"/>
-    <line x1="160" y1="100" x2="300" y2="100" stroke="#f0ab3d" stroke-width="3"/>
+  <section id="modes" class="card">
+    <h2>Modes & schematics (HTML/SVG)</h2>
 
-    <rect x="300" y="60" width="160" height="40" rx="6" fill="#161b22" stroke="#30363d"/>
-    <text x="380" y="85" text-anchor="middle" font-size="13" fill="#c9d1d9">Front Left</text>
+    <h3 id="mode-20">Mode 2.0 — Direct stereo (reference)</h3>
+    <p>Baseline connection. Front L and R driven directly by the stereo amplifier. No matrix elements used.</p>
+    <svg viewBox="0 0 760 160" role="img" aria-label="Direct stereo schematic">
+      <rect x="20" y="40" width="150" height="80" rx="8" fill="#12192d" stroke="#2c3650"/>
+      <text x="95" y="86" text-anchor="middle" font-size="14" fill="#dce7ff">Amplifier 2.0</text>
+      <line x1="170" y1="60" x2="360" y2="60" stroke="#58a6ff" stroke-width="3"/>
+      <line x1="170" y1="100" x2="360" y2="100" stroke="#f0ab3d" stroke-width="3"/>
+      <rect x="360" y="40" width="160" height="40" rx="6" fill="#12192d" stroke="#2c3650"/>
+      <text x="440" y="64" text-anchor="middle" font-size="13" fill="#dce7ff">Front Left</text>
+      <rect x="360" y="80" width="160" height="40" rx="6" fill="#12192d" stroke="#2c3650"/>
+      <text x="440" y="104" text-anchor="middle" font-size="13" fill="#dce7ff">Front Right</text>
+    </svg>
 
-    <rect x="300" y="110" width="160" height="40" rx="6" fill="#161b22" stroke="#30363d"/>
-    <text x="380" y="135" text-anchor="middle" font-size="13" fill="#c9d1d9">Front Right</text>
-  </svg>
+    <hr>
 
-  <p class="note">Use high-quality speaker cable, observe polarity, and check amplifier specifications for safe load ranges.</p>
-</section>
+    <h3 id="mode-21">Mode 2.1 — Active subwoofer feed</h3>
+    <p>Derive a line-level signal from speaker outputs using a high-impedance divider. Feed an active sub’s RCA line-in (stereo) or a summed mono input.</p>
+    <ul class="list-compact">
+      <li>Per channel: 10 kΩ series to node → 1 kΩ to ground → RCA tip. RCA sleeve to ground.</li>
+      <li>Mono sum: two 10 kΩ (from L and R) into one node, then 1 kΩ to ground → single RCA.</li>
+      <li>For BTL/Class‑D amplifiers, the sub must provide isolated inputs or use transformer isolation.</li>
+    </ul>
+    <svg viewBox="0 0 920 260" role="img" aria-label="2.1 sub feed schematic">
+      <rect x="20" y="30" width="150" height="80" rx="8" fill="#12192d" stroke="#2c3650"/>
+      <text x="95" y="76" text-anchor="middle" font-size="14" fill="#dce7ff">Amplifier 2.0</text>
 
-<section id="mode-21">
-  <h2>Mode: 2.1 (Subwoofer Feed)</h2>
-  <p>Derive a line-level signal from the amplifier’s speaker outputs via a high-impedance voltage divider. This feeds an active subwoofer that accepts high-level input or RCA line-in.</p>
+      <!-- Speaker lines -->
+      <line x1="170" y1="50" x2="290" y2="50" stroke="#58a6ff" stroke-width="3"/>
+      <line x1="170" y1="90" x2="290" y2="90" stroke="#f0ab3d" stroke-width="3"/>
 
-  <ul>
-    <li>Each channel uses a 10 kΩ resistor in series with the signal, then a 1 kΩ resistor to ground at the RCA tip.</li>
-    <li>For mono input, sum L and R with two 10 kΩ resistors.</li>
-    <li>Subwoofer must handle line-level inputs derived from speaker terminals.</li>
-  </ul>
+      <!-- Divider blocks -->
+      <rect x="290" y="30" width="200" height="80" rx="8" fill="#0e162b" stroke="#2c3650"/>
+      <text x="390" y="52" text-anchor="middle" font-size="12" fill="#c9d1d9">High‑level → Line Divider</text>
+      <!-- Left channel divider -->
+      <line x1="200" y1="50" x2="330" y2="50" stroke="#58a6ff" stroke-width="2"/>
+      <rect x="330" y="44" width="40" height="12" fill="#1e2b4d" stroke="#42507a"/>
+      <text x="350" y="53" text-anchor="middle" font-size="10" fill="#cfe3ff">10k</text>
+      <circle cx="370" cy="50" r="3" fill="#a0b8ff"/>
+      <line x1="370" y1="50" x2="370" y2="78" stroke="#7e8796" stroke-width="2"/>
+      <rect x="358" y="78" width="24" height="12" fill="#1e2b4d" stroke="#42507a"/>
+      <text x="370" y="87" text-anchor="middle" font-size="10" fill="#cfe3ff">1k</text>
+      <line x1="370" y1="90" x2="370" y2="104" stroke="#7e8796" stroke-width="2"/>
+      <line x1="350" y1="104" x2="390" y2="104" stroke="#7e8796" stroke-width="2"/>
+      <text x="402" y="108" font-size="10" fill="#8b949e">GND</text>
 
-  <svg viewBox="0 0 800 200">
-    <rect x="20" y="60" width="140" height="60" rx="8" fill="#161b22" stroke="#30363d"/>
-    <text x="90" y="95" text-anchor="middle" font-size="14" fill="#c9d1d9">Amplifier</text>
+      <!-- Right channel divider -->
+      <line x1="200" y1="90" x2="330" y2="90" stroke="#f0ab3d" stroke-width="2"/>
+      <rect x="330" y="84" width="40" height="12" fill="#1e2b4d" stroke="#7a5a26"/>
+      <text x="350" y="93" text-anchor="middle" font-size="10" fill="#ffe2b3">10k</text>
+      <circle cx="370" cy="90" r="3" fill="#ffd28a"/>
+      <line x1="370" y1="90" x2="370" y2="118" stroke="#7e8796" stroke-width="2"/>
+      <rect x="358" y="118" width="24" height="12" fill="#1e2b4d" stroke="#7a5a26"/>
+      <text x="370" y="127" text-anchor="middle" font-size="10" fill="#ffe2b3">1k</text>
+      <line x1="370" y1="130" x2="370" y2="144" stroke="#7e8796" stroke-width="2"/>
+      <line x1="350" y1="144" x2="390" y2="144" stroke="#7e8796" stroke-width="2"/>
+      <text x="402" y="148" font-size="10" fill="#8b949e">GND</text>
 
-    <line x1="160" y1="80" x2="320" y2="80" stroke="#58a6ff" stroke-width="3"/>
-    <line x1="160" y1="100" x2="320" y2="100" stroke="#f0ab3d" stroke-width="3"/>
+      <!-- RCA outputs -->
+      <rect x="520" y="30" width="180" height="80" rx="8" fill="#12192d" stroke="#2c3650"/>
+      <text x="610" y="52" text-anchor="middle" font-size="12" fill="#c9d1d9">To Active Sub (RCA)</text>
+      <circle cx="560" cy="70" r="10" fill="#0f1628" stroke="#42507a"/>
+      <text x="560" y="72" text-anchor="middle" font-size="9" fill="#a0b8ff">L</text>
+      <circle cx="660" cy="70" r="10" fill="#0f1628" stroke="#7a5a26"/>
+      <text x="660" y="72" text-anchor="middle" font-size="9" fill="#ffd28a">R</text>
+      <line x1="370" y1="50" x2="560" y2="70" stroke="#a0b8ff" stroke-width="2"/>
+      <line x1="370" y1="90" x2="660" y2="70" stroke="#ffd28a" stroke-width="2"/>
 
-    <circle cx="320" cy="80" r="5" fill="#58a6ff"/>
-    <circle cx="320" cy="100" r="5" fill="#f0ab3d"/>
+      <!-- Front speakers (for context) -->
+      <rect x="730" y="30" width="160" height="80" rx="8" fill="#12192d" stroke="#2c3650"/>
+      <text x="810" y="60" text-anchor="middle" font-size="12" fill="#c9d1d9">Front L / Front R</text>
+    </svg>
+    <p class="note">For mono subs, sum L and R with two 10 kΩ resistors into a single RCA tip before the 1 kΩ to ground.</p>
 
-    <line x1="320" y1="80" x2="400" y2="80" stroke="#8b949e" stroke-dasharray="4 2" stroke-width="2"/>
-    <line x1="320" y1="100" x2="400" y2="100" stroke="#8b949e" stroke-dasharray="4 2" stroke-width="2"/>
+    <hr>
 
-    <rect x="400" y="60" width="160" height="80" rx="8" fill="#161b22" stroke="#30363d"/>
-    <text x="480" y="100" text-anchor="middle" font-size="13" fill="#c9d1d9">Active Sub Input</text>
-  </svg>
+    <h3 id="mode-30">Mode 3.0 — Phantom center (L+R)</h3>
+    <p>Derive a center channel by summing L and R through equal power resistors. Requires a common-ground amplifier.</p>
+    <ul class="list-compact">
+      <li>L+ → 8.2 Ω (15–25 W) → Center+</li>
+      <li>R+ → 8.2 Ω (15–25 W) → Center+</li>
+      <li>Optional shunt across Center: 8.2–10 Ω (25 W) for level stabilization</li>
+      <li>Center− to common ground (only if the amplifier is common-ground)</li>
+    </ul>
+    <svg viewBox="0 0 980 320" role="img" aria-label="3.0 phantom center schematic">
+      <rect x="20" y="30" width="150" height="80" rx="8" fill="#12192d" stroke="#2c3650"/>
+      <text x="95" y="76" text-anchor="middle" font-size="14" fill="#dce7ff">Amplifier 2.0</text>
 
-  <p class="note">Resistors can be small (1/4 W). For safety, always confirm the amplifier’s negative terminals are referenced to ground. If using a class-D amp without common ground, the subwoofer must isolate the inputs.</p>
-</section>
+      <!-- Front lines -->
+      <line x1="170" y1="50" x2="330" y2="50" stroke="#58a6ff" stroke-width="3"/>
+      <line x1="170" y1="90" x2="330" y2="90" stroke="#f0ab3d" stroke-width="3"/>
 
-<!-- Additional sections for 3.0, 4.0, 5.0, and 5.1 will follow -->
+      <!-- Summing resistors -->
+      <rect x="330" y="44" width="50" height="12" fill="#1e2b4d" stroke="#42507a"/>
+      <text x="355" y="53" text-anchor="middle" font-size="10" fill="#cfe3ff">8.2Ω</text>
+      <rect x="330" y="84" width="50" height="12" fill="#1e2b4d" stroke="#7a5a26"/>
+      <text x="355" y="93" text-anchor="middle" font-size="10" fill="#ffe2b3">8.2Ω</text>
+
+      <!-- Node to Center+ -->
+      <line x1="380" y1="50" x2="440" y2="50" stroke="#a0b8ff" stroke-width="2"/>
+      <line x1="380" y1="90" x2="440" y2="90" stroke="#ffd28a" stroke-width="2"/>
+      <circle cx="440" cy="70" r="6" fill="#a9b4c4" stroke="#2c3650"/>
+      <text x="440" y="64" text-anchor="middle" font-size="10" fill="#e6edf3">Sum</text>
+      <line x1="440" y1="70" x2="600" y2="70" stroke="#9bd17c" stroke-width="3"/>
+
+      <!-- Optional shunt across Center -->
+      <line x1="640" y1="50" x2="640" y2="120" stroke="#7e8796" stroke-width="2"/>
+      <rect x="628" y="82" width="24" height="12" fill="#1e2b4d" stroke="#42507a"/>
+      <text x="640" y="91" text-anchor="middle" font-size="10" fill="#cfe3ff">8.2–10Ω</text>
+
+      <!-- Center speaker -->
+      <rect x="600" y="40" width="160" height="60" rx="8" fill="#12192d" stroke="#2c3650"/>
+      <text x="680" y="70" text-anchor="middle" font-size="12" fill="#c9d1d9">Center</text>
+      <line x1="600" y1="70" x2="440" y2="70" stroke="#9bd17c" stroke-width="3"/>
+
+      <!-- Ground reference -->
+      <line x1="600" y1="120" x2="740" y2="120" stroke="#7e8796" stroke-width="2"/>
+      <text x="748" y="124" font-size="10" fill="#8b949e">GND (common only)</text>
+
+      <!-- Front speakers (context) -->
+      <rect x="780" y="30" width="180" height="80" rx="8" fill="#12192d" stroke="#2c3650"/>
+      <text x="870" y="58" text-anchor="middle" font-size="12" fill="#c9d1d9">Front L / Front R</text>
+    </svg>
+    <p class="note">Increase summing resistor values for a softer center. The optional shunt lowers center impedance and level; adjust to taste.</p>
+
+    <hr>
+
+    <h3 id="mode-40">Mode 4.0 — Hafler rears (L−R ambience)</h3>
+    <p>Rear speakers connect between L+ and R+ so they reproduce the difference signal. This emphasizes ambience and out-of-phase content naturally present in many stereo recordings.</p>
+    <ul class="list-compact">
+      <li>Each rear wired between L+ and R+ (no connection to negatives).</li>
+      <li>Optional attenuation per rear: 3.3–10 Ω series resistor (10–25 W) or an 8 Ω L‑pad (50 W).</li>
+      <li>Typically compatible with BTL/Class‑D amps (negatives remain separate), but always verify documentation.</li>
+    </ul>
+    <svg viewBox="0 0 980 300" role="img" aria-label="4.0 Hafler rears schematic">
+      <rect x="20" y="40" width="150" height="80" rx="8" fill="#12192d" stroke="#2c3650"/>
+      <text x="95" y="86" text-anchor="middle" font-size="14" fill="#dce7ff">Amplifier 2.0</text>
+
+      <!-- L and R positives -->
+      <line x1="170" y1="60" x2="360" y2="60" stroke="#58a6ff" stroke-width="3"/>
+      <line x1="170" y1="100" x2="360" y2="100" stroke="#f0ab3d" stroke-width="3"/>
+
+      <!-- Rear L between L+ and R+ -->
+      <line x1="360" y1="60" x2="600" y2="140" stroke="#8ecae6" stroke-width="3"/>
+      <rect x="600" y="120" width="160" height="40" rx="6" fill="#12192d" stroke="#2c3650"/>
+      <text x="680" y="144" text-anchor="middle" font-size="12" fill="#c9d1d9">Rear (L−R)</text>
+      <line x1="360" y1="100" x2="600" y2="160" stroke="#ffddb0" stroke-width="3"/>
+
+      <!-- Optional series resistor -->
+      <rect x="560" y="136" width="28" height="12" fill="#1e2b4d" stroke="#42507a"/>
+      <text x="574" y="145" text-anchor="middle" font-size="10" fill="#cfe3ff">3.3–10Ω</text>
+
+      <!-- Front speakers (context) -->
+      <rect x="780" y="40" width="180" height="80" rx="8" fill="#12192d" stroke="#2c3650"/>
+      <text x="870" y="68" text-anchor="middle" font-size="12" fill="#c9d1d9">Front L / Front R</text>
+    </svg>
+    <p class="note">Rear level should be subtle. If rears feel dominant, increase the series resistor or fit an L‑pad to trim.</p>
+
+    <hr>
+
+    <h3 id="mode-50">Mode 5.0 — Center + Hafler rears</h3>
+    <p>Combine the phantom center (L+R) and Hafler rears (L−R) for a convincing spatial field. Each section can be switchable.</p>
+    <svg viewBox="0 0 1040 360" role="img" aria-label="5.0 combined schematic">
+      <rect x="20" y="30" width="150" height="80" rx="8" fill="#12192d" stroke="#2c3650"/>
+      <text x="95" y="76" text-anchor="middle" font-size="14" fill="#dce7ff">Amplifier 2.0</text>
+
+      <!-- L and R positives -->
+      <line x1="170" y1="50" x2="320" y2="50" stroke="#58a6ff" stroke-width="3"/>
+      <line x1="170" y1="90" x2="320" y2="90" stroke="#f0ab3d" stroke-width="3"/>
+
+      <!-- Switch blocks -->
+      <rect x="320" y="30" width="120" height="40" rx="6" fill="#0e162b" stroke="#2c3650"/>
+      <text x="380" y="54" text-anchor="middle" font-size="11" fill="#c9d1d9">Center Switch</text>
+      <rect x="320" y="110" width="120" height="40" rx="6" fill="#0e162b" stroke="#2c3650"/>
+      <text x="380" y="134" text-anchor="middle" font-size="11" fill="#c9d1d9">Rear Switch</text>
+
+      <!-- Center path -->
+      <rect x="460" y="44" width="42" height="12" fill="#1e2b4d" stroke="#42507a"/>
+      <text x="481" y="53" text-anchor="middle" font-size="10" fill="#cfe3ff">8.2Ω</text>
+      <rect x="460" y="84" width="42" height="12" fill="#1e2b4d" stroke="#7a5a26"/>
+      <text x="481" y="93" text-anchor="middle" font-size="10" fill="#ffe2b3">8.2Ω</text>
+      <line x1="502" y1="50" x2="560" y2="70" stroke="#a0b8ff" stroke-width="2"/>
+      <line x1="502" y1="90" x2="560" y2="70" stroke="#ffd28a" stroke-width="2"/>
+      <circle cx="560" cy="70" r="5" fill="#a9b4c4"/>
+      <line x1="560" y1="70" x2="680" y2="70" stroke="#9bd17c" stroke-width="3"/>
+      <rect x="680" y="40" width="160" height="60" rx="8" fill="#12192d" stroke="#2c3650"/>
+      <text x="760" y="70" text-anchor="middle" font-size="12" fill="#c9d1d9">Center</text>
+
+      <!-- Rear path -->
+      <line x1="440" y1="130" x2="540" y2="130" stroke="#58a6ff" stroke-width="2"/>
+      <line x1="440" y1="150" x2="540" y2="150" stroke="#f0ab3d" stroke-width="2"/>
+      <line x1="540" y1="130" x2="760" y2="190" stroke="#8ecae6" stroke-width="3"/>
+      <line x1="540" y1="150" x2="760" y2="210" stroke="#ffddb0" stroke-width="3"/>
+      <rect x="740" y="184" width="28" height="12" fill="#1e2b4d" stroke="#42507a"/>
+      <text x="754" y="193" text-anchor="middle" font-size="10" fill="#cfe3ff">3.3–10Ω</text>
+      <rect x="760" y="176" width="160" height="48" rx="8" fill="#12192d" stroke="#2c3650"/>
+      <text x="840" y="204" text-anchor="middle" font-size="12" fill="#c9d1d9">Rear L / Rear R</text>
+    </svg>
+    <p class="note">Switching can be done with DPDT/4PDT toggles or a rotary selector to enable/disable center and rears independently.</p>
+
+    <hr>
+
+    <h3 id="mode-51">Mode 5.1 — Add active sub</h3>
+    <p>Mode 5.0 plus the 2.1 divider feeding an active subwoofer. Not discrete 5.1, but highly effective for music and general content.</p>
+    <p class="note">Set sub crossover and phase by ear or measurement; typical ranges: 60–100 Hz crossover, 0/180° or variable phase to integrate with fronts.</p>
+  </section>
+
+  <section id="values" class="card">
+    <h2>Recommended starting values</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Section</th>
+          <th>Topology</th>
+          <th>Values</th>
+          <th>Power rating</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Phantom center</td>
+          <td>L+ and R+ each through series resistor to Center+</td>
+          <td>2× 8.2 Ω (series); optional 8.2–10 Ω shunt across center</td>
+          <td>15–25 W (series); 25 W (shunt)</td>
+          <td>Increase series for softer center; add shunt to stabilize level</td>
+        </tr>
+        <tr>
+          <td>Hafler rears</td>
+          <td>Each rear between L+ and R+; optional attenuation</td>
+          <td>3.3–10 Ω series per rear or 8 Ω L‑pad</td>
+          <td>10–25 W (series); 50 W (L‑pad)</td>
+          <td>Target ambience; keep levels subtle</td>
+        </tr>
+        <tr>
+          <td>Sub line feed</td>
+          <td>High‑level to line divider (per channel)</td>
+          <td>10 kΩ series to node; 1 kΩ to ground; RCA from node</td>
+          <td>0.25 W</td>
+          <td>For mono: sum L/R via two 10 kΩ into one RCA</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="note">Values are conservative and intended as a starting point. Adjust to speaker sensitivity and listening levels.</p>
+  </section>
+
+  <section id="bom" class="card">
+    <h2>Bill of materials (BOM)</h2>
+    <ul>
+      <li>Power resistors: 8.2 Ω (15–25 W), 3.3–10 Ω (10–25 W), optional 8.2–10 Ω (25 W) shunt</li>
+      <li>L‑pad attenuators (optional): 8 Ω / 50 W for rear level control</li>
+      <li>Resistors for sub divider: 10 kΩ and 1 kΩ (¼ W), quantity per chosen topology</li>
+      <li>Terminal posts/binding posts: IN L/R, OUT Front L/R, OUT Center, OUT Rear L/R</li>
+      <li>RCA connectors: Sub L/R or Mono</li>
+      <li>Switches (optional): DPDT or 4PDT toggles, or rotary selector for mode control</li>
+      <li>Enclosure (vented) or terminal strip board; heat‑resistant mounting hardware</li>
+      <li>Wire: appropriate AWG for expected current; heat‑shrink, labels</li>
+    </ul>
+  </section>
+
+  <section id="switching" class="card">
+    <h2>Switching & physical layout (guidance)</h2>
+    <ul>
+      <li>Keep high-current speaker runs short and twisted for each polarity to reduce hum pickup.</li>
+      <li>Mount power resistors with airflow and clearance from plastics; consider small heatsinks.</li>
+      <li>Use separate switches for Center and Rears. A third switch can enable the Sub divider.</li>
+      <li>Label all terminals clearly: IN L/R, FRONT L/R, CENTER, REAR L/R, SUB OUT.</li>
+    </ul>
+  </section>
+
+  <section id="math" class="card">
+    <h2>Impedance & simple math</h2>
+    <ul>
+      <li>Two 8 Ω speakers in parallel: R = (8×8)/(8+8) = 4 Ω</li>
+      <li>Two 8 Ω in series: R = 8 + 8 = 16 Ω</li>
+      <li>Avoid total load below amplifier minimum (commonly 4–8 Ω for many consumer amps).</li>
+      <li>Resistor power estimate: P = V²/R. Use headroom and derating for safety.</li>
+    </ul>
+    <p class="note">The Hafler network typically adds modest loading because rears see the difference signal, but thermal checks remain essential.</p>
+  </section>
+
+  <section id="testing" class="card">
+    <h2>Testing & tuning</h2>
+    <ol>
+      <li>Begin with 2.0 to verify baseline operation.</li>
+      <li>Add the Sub divider (2.1). Confirm low noise and proper sub gain; set crossover/phase.</li>
+      <li>Enable the Center (3.0). Adjust summing/shunt values to anchor dialogue without collapsing width.</li>
+      <li>Enable the Rears (4.0). Trim level (series resistor or L‑pad) until ambience is perceptible but not distracting.</li>
+      <li>Combine to 5.0/5.1. Recheck amplifier temperature and resistor heating after 20–30 minutes.</li>
+    </ol>
+    <p class="note">If any component becomes excessively hot to the touch, increase power ratings or adjust levels/values. Never exceed the amplifier’s load specifications.</p>
+  </section>
+
+  <section id="license" class="card">
+    <h2>License & attribution</h2>
+    <div class="kv">
+      <b>Project</b><span>OpenStereoMatrix</span>
+      <b>Author</b><span>Luca Bocaletto (bocaletto‑luca)</span>
+      <b>License</b><span>GPL‑3.0‑or‑later — SPDX‑ID: <code>GPL-3.0-or-later</code></span>
+      <b>Copyright</b><span>© Contributors</span>
+    </div>
+    <details>
+      <summary>License summary</summary>
+      <p>This documentation and the accompanying designs are released under the GNU General Public License version 3 (or later). You may copy, distribute, and modify the work under the terms of the GPL, provided that modifications are likewise licensed and appropriate notices are preserved.</p>
+    </details>
+    <p class="note small">For repositories, include a dedicated <code>LICENSE</code> file with the full GPL‑3.0 text. This page embeds the essential licensing information for single‑file portability.</p>
+  </section>
 
 </main>
 
 <footer>
-  <p>OpenStereoMatrix &copy; Contributors. Licensed under <code>GPL-3.0-or-later</code>. No warranties implied. Use at your own risk.</p>
+  <div class="wrap">
+    <span class="mut">OpenStereoMatrix • A single‑page, professional HTML documentation of a classic passive surround technique.</span>
+    <span class="right mut small">Version 1.0.0</span>
+  </div>
 </footer>
 
 </body>
