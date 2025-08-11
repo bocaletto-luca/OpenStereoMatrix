@@ -3,7 +3,7 @@
 Adapting classic stereo amplifiers to multi-speaker layouts using simple, robust passive networks. This project documents how to drive 3.0, 4.0, 5.0, 2.1, and 5.1 speaker sets from a 2.0 amplifier using only resistive matrices and careful wiring. All schematics are provided as clean, self-contained HTML (no external images or CAD files).
 
 - License: GPL-3.0-or-later
-- Docs: see `docs/index.html` (HTML-only schematics and wiring walkthroughs)
+- Docs: see `index.html` (HTML-only schematics and wiring walkthroughs)
 
 ---
 
