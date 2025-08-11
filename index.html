@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>OpenStereoMatrix – Passive Surround Adapter for 2.0 Amplifiers</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0; padding: 0;
+      font-family: system-ui, sans-serif;
+      background-color: #0d1117;
+      color: #c9d1d9;
+      line-height: 1.6;
+    }
+    h1, h2, h3 { color: #ffffff; }
+    header, footer {
+      background-color: #161b22;
+      padding: 2rem;
+    }
+    main {
+      padding: 2rem;
+      max-width: 960px;
+      margin: auto;
+    }
+    section {
+      margin-bottom: 3rem;
+      border-bottom: 1px solid #30363d;
+      padding-bottom: 2rem;
+    }
+    svg {
+      background-color: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      margin-top: 1rem;
+      max-width: 100%;
+      height: auto;
+    }
+    code {
+      background-color: #161b22;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+    }
+    .note { color: #8b949e; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>OpenStereoMatrix</h1>
+  <p>A passive wiring method to adapt 2.0 stereo amplifiers for expanded speaker layouts including 3.0, 4.0, 5.0, 2.1, and 5.1.</p>
+</header>
+
+<main>
+
+<section id="overview">
+  <h2>Overview</h2>
+  <p>This document provides standalone HTML diagrams and wiring guides for each mode supported by OpenStereoMatrix. No images, software, or external drawings are required — all logic is illustrated using basic SVG elements inside this file.</p>
+  <ul>
+    <li>Compatible with analog stereo amplifiers, provided load impedance and ground architecture are respected.</li>
+    <li>Recommended only for setups where the amplifier’s minimum impedance is known and respected.</li>
+    <li>All connections use resistive matrices; no active electronics are required.</li>
+    <li>License: <code>GPL-3.0-or-later</code></li>
+  </ul>
+</section>
+
+<section id="mode-20">
+  <h2>Mode: 2.0 (Direct Stereo)</h2>
+  <p>Standard stereo connection. No additional wiring is necessary. Connect the amplifier’s left and right outputs directly to the respective front speakers.</p>
+
+  <svg viewBox="0 0 700 180">
+    <rect x="20" y="60" width="140" height="60" rx="8" fill="#161b22" stroke="#30363d"/>
+    <text x="90" y="95" text-anchor="middle" font-size="14" fill="#c9d1d9">Amplifier</text>
+
+    <line x1="160" y1="80" x2="300" y2="80" stroke="#58a6ff" stroke-width="3"/>
+    <line x1="160" y1="100" x2="300" y2="100" stroke="#f0ab3d" stroke-width="3"/>
+
+    <rect x="300" y="60" width="160" height="40" rx="6" fill="#161b22" stroke="#30363d"/>
+    <text x="380" y="85" text-anchor="middle" font-size="13" fill="#c9d1d9">Front Left</text>
+
+    <rect x="300" y="110" width="160" height="40" rx="6" fill="#161b22" stroke="#30363d"/>
+    <text x="380" y="135" text-anchor="middle" font-size="13" fill="#c9d1d9">Front Right</text>
+  </svg>
+
+  <p class="note">Use high-quality speaker cable, observe polarity, and check amplifier specifications for safe load ranges.</p>
+</section>
+
+<section id="mode-21">
+  <h2>Mode: 2.1 (Subwoofer Feed)</h2>
+  <p>Derive a line-level signal from the amplifier’s speaker outputs via a high-impedance voltage divider. This feeds an active subwoofer that accepts high-level input or RCA line-in.</p>
+
+  <ul>
+    <li>Each channel uses a 10 kΩ resistor in series with the signal, then a 1 kΩ resistor to ground at the RCA tip.</li>
+    <li>For mono input, sum L and R with two 10 kΩ resistors.</li>
+    <li>Subwoofer must handle line-level inputs derived from speaker terminals.</li>
+  </ul>
+
+  <svg viewBox="0 0 800 200">
+    <rect x="20" y="60" width="140" height="60" rx="8" fill="#161b22" stroke="#30363d"/>
+    <text x="90" y="95" text-anchor="middle" font-size="14" fill="#c9d1d9">Amplifier</text>
+
+    <line x1="160" y1="80" x2="320" y2="80" stroke="#58a6ff" stroke-width="3"/>
+    <line x1="160" y1="100" x2="320" y2="100" stroke="#f0ab3d" stroke-width="3"/>
+
+    <circle cx="320" cy="80" r="5" fill="#58a6ff"/>
+    <circle cx="320" cy="100" r="5" fill="#f0ab3d"/>
+
+    <line x1="320" y1="80" x2="400" y2="80" stroke="#8b949e" stroke-dasharray="4 2" stroke-width="2"/>
+    <line x1="320" y1="100" x2="400" y2="100" stroke="#8b949e" stroke-dasharray="4 2" stroke-width="2"/>
+
+    <rect x="400" y="60" width="160" height="80" rx="8" fill="#161b22" stroke="#30363d"/>
+    <text x="480" y="100" text-anchor="middle" font-size="13" fill="#c9d1d9">Active Sub Input</text>
+  </svg>
+
+  <p class="note">Resistors can be small (1/4 W). For safety, always confirm the amplifier’s negative terminals are referenced to ground. If using a class-D amp without common ground, the subwoofer must isolate the inputs.</p>
+</section>
+
+<!-- Additional sections for 3.0, 4.0, 5.0, and 5.1 will follow -->
+
+</main>
+
+<footer>
+  <p>OpenStereoMatrix &copy; Contributors. Licensed under <code>GPL-3.0-or-later</code>. No warranties implied. Use at your own risk.</p>
+</footer>
+
+</body>
+</html>
