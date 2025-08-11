@@ -146,6 +146,82 @@ SPDX-ID: `GPL-3.0-or-later`
 
 ---
 
+---
+
+## Documentation format
+
+All schematics and explanations are embedded in a single, responsive HTML file (`docs/index.html`) written entirely in HTML and CSS, with SVG primitives for wiring diagrams. There are no external images or hardware drawings. This guarantees portability, clarity, and easy adaptation across platforms.
+
+This format serves readers who prefer:
+- No image dependencies,
+- Cleanly styled dark-mode documentation,
+- Embedded wiring and logic in web-native code,
+- Self-contained offline viewing or integration into other web projects.
+
+---
+
+## Amplifier compatibility notes
+
+Modern amplifiers may use BTL (Bridge-Tied Load) or Class-D topologies with separate grounds per channel. In these cases, tying the negative terminals of L and R together can damage the amplifier.
+
+**Always verify** whether the amplifier shares a common ground (i.e., negative terminals are referenced to the same point). If unsure:
+- Do not use the phantom center circuit (it assumes common ground),
+- Only use the Hafler rear matrix (which avoids tying grounds),
+- Use an active subwoofer with transformer-isolated high-level inputs or buffered line inputs.
+
+---
+
+## Thermal behavior
+
+Passive summing and difference circuits dissipate power as heat. Even with moderate listening levels, resistors can exceed 50–70 °C after 20–30 minutes without airflow.
+
+Recommended practices:
+- Use ceramic or wirewound resistors rated for 15–50 W, not generic carbon resistors,
+- Mount resistors away from plastic components or flammable surfaces,
+- Provide airflow in enclosures,
+- Check with an infrared thermometer after sustained use.
+
+High-power variants can use heatsinks, metal enclosures, or even forced ventilation if necessary.
+
+---
+
+## Scaling to higher-power amplifiers
+
+For systems exceeding 100 W RMS per channel:
+- Increase summing and attenuation resistors proportionally (e.g., use 25–50 Ω shunt with 25–50 W rating),
+- Series summing resistors must handle peak currents safely and avoid excessive voltage drop,
+- Recalculate total impedance with each speaker added or rerouted.
+
+Use Ohm’s Law:
+- \(P = V^2 / R\),
+- Estimate worst-case voltage across resistor and back-calculate power.
+
+---
+
+## Alternatives and upgrades
+
+This project can be expanded into:
+
+- **Buffered active matrix**: Use op-amps or discrete buffers to reproduce the phantom center and L−R surrounds with controlled gain and low noise.
+- **Relay-switchable modes**: Integrate relays or MOSFETs to switch modes electronically, ideal for remote control setups.
+- **Preamp integration**: Create a switchable passive matrix stage ahead of amplification, preserving amplifier load integrity.
+
+Each upgrade should retain the project’s core values: simplicity, reversibility, and compatibility.
+
+---
+
+## Acknowledgments
+
+Inspired by classic Hafler networks, DIY stereo adapters, and passive surround approximations dating back to the analog hi-fi era. This project aims to modernize those ideas for today’s stereo systems, while remaining fully open, educational, and adaptable.
+
+---
+
+## Final notes
+
+This repository provides a practical toolkit for stereo system enthusiasts who want to get more spatial information from stereo recordings, without buying new equipment or installing complex processors. The techniques herein are not replacements for true multichannel decoding, but they offer compelling benefits in musicality and immersive depth when well implemented.
+
+Thanks for visiting the project. Fork it, build it, improve it—and share your results!
+
 ## Disclaimer
 
 Use at your own risk. Verify amplifier topology and minimum load specifications. Do not tie channel negatives together on non–common-ground amplifiers. Always validate at low volume before regular use.
