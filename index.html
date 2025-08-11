@@ -2,26 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OpenStereoMatrix – Speaker Wiring Designer</title>
   <style>
-    body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 0; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; line-height: 1.6; }
     header, footer { background: #222; color: #fff; padding: 1rem; }
-    header nav a { color: #fff; margin-right: 1rem; text-decoration: none; }
-    main { padding: 2rem; max-width: 900px; margin: 0 auto; }
-    section { margin-bottom: 3rem; }
-    section > h2 { border-bottom: 2px solid #eee; padding-bottom: .5rem; }
+    header nav a { color: #fff; margin-right: 1rem; text-decoration: none; font-size: 0.9rem; }
+    main { max-width: 900px; margin: 0 auto; padding: 2rem; }
+    section { margin-bottom: 2.5rem; }
+    section h2 { border-bottom: 2px solid #eee; padding-bottom: 0.5rem; margin-top: 0; }
     svg { display: block; margin: 1rem 0; border: 1px solid #ccc; }
-    aside.quick-tips { background: #f9f9f9; border-left: 4px solid #007acc; padding: 1rem; margin-bottom: 2rem;}
-    .warning { background: #ffe5e5; color: #900; padding: .5rem; margin-bottom: 1rem; }
+    .quick-tips { background: #f9f9f9; border-left: 4px solid #007acc; padding: 1rem; }
+    .warning { background: #ffe5e5; color: #900; padding: 0.5rem; margin-bottom: 1rem; }
     table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
     table, th, td { border: 1px solid #ccc; }
-    th, td { padding: .5rem; text-align: left; }
-    dl dt { font-weight: bold; }
+    th, td { padding: 0.5rem; text-align: left; }
+    dl dt { font-weight: bold; margin-top: 1rem; }
     dl dd { margin: 0 0 1rem 1rem; }
+    form { background: #f4f4f4; padding: 1rem; border: 1px solid #ccc; }
+    form label { display: block; margin-top: 0.5rem; }
+    form input, form select, form button {
+      margin-top: 0.25rem; padding: 0.5rem; font-size: 1rem;
+    }
+    #calc-output { margin-top: 1rem; padding: 1rem; background: #fff; border: 1px solid #007acc; }
   </style>
 </head>
 <body>
+
   <header>
     <h1>OpenStereoMatrix</h1>
     <nav>
@@ -33,6 +40,7 @@
       <a href="#quick-tips">Quick Tips</a>
       <a href="#faq">FAQ</a>
       <a href="#glossary">Glossary</a>
+      <a href="#calculator">Calculator</a>
     </nav>
   </header>
 
@@ -43,19 +51,21 @@
       <p>Standard left/right stereo wiring for two identical 8 Ω speakers. Choose series or parallel according to amplifier load.</p>
       <svg width="300" height="120" role="img" aria-label="2.0 stereo wiring diagram">
         <title>Stereo 2.0 Wiring</title>
+        <!-- Amp L -->
+        <rect x="0" y="40" width="40" height="40" fill="#ddd"/>
+        <text x="5" y="65" font-size="10">Amp L</text>
         <!-- Left speaker -->
-        <circle cx="60" cy="60" r="20" stroke="#333" fill="none"/>
-        <line x1="80" y1="60" x2="140" y2="60" stroke="#007acc" stroke-width="2"/>
+        <circle cx="80" cy="60" r="20" stroke="#333" fill="none"/>
+        <line x1="40" y1="60" x2="60" y2="60" stroke="#007acc" stroke-width="2"/>
+        <!-- Connector -->
+        <line x1="100" y1="60" x2="140" y2="60" stroke="#007acc" stroke-width="2"/>
         <!-- Right speaker -->
         <circle cx="180" cy="60" r="20" stroke="#333" fill="none"/>
-        <line x1="140" y1="60" x2="180" y2="60" stroke="#007acc" stroke-width="2"/>
-        <!-- Amp box -->
-        <rect x="0" y="40" width="40" height="40" fill="#ddd"/>
-        <text x="5" y="65" font-size="10px" fill="#000">Amp L</text>
+        <line x1="140" y1="60" x2="160" y2="60" stroke="#007acc" stroke-width="2"/>
+        <!-- Amp R -->
         <rect x="240" y="40" width="40" height="40" fill="#ddd"/>
-        <text x="245" y="65" font-size="10px" fill="#000">Amp R</text>
+        <text x="245" y="65" font-size="10">Amp R</text>
       </svg>
-      <p>Impedance:</p>
       <ul>
         <li>Series: 16 Ω</li>
         <li>Parallel: 4 Ω</li>
@@ -65,135 +75,131 @@
     <!-- MODE 2.1 -->
     <section id="mode-2.1">
       <h2>Mode 2.1 (Stereo + Subwoofer)</h2>
-      <p>Add an active subwoofer with a simple LC crossover network.</p>
+      <p>Integrate an active subwoofer with a passive LC crossover network.</p>
       <svg width="350" height="160" role="img" aria-label="2.1 stereo plus subwoofer wiring">
         <title>Stereo 2.1 Wiring with Crossover</title>
-        <!-- Stereo L/R -->
-        <circle cx="60" cy="60" r="20" stroke="#333" fill="none"/>
-        <text x="50" y="95" font-size="10px">L</text>
-        <circle cx="160" cy="60" r="20" stroke="#333" fill="none"/>
-        <text x="150" y="95" font-size="10px">R</text>
-        <!-- Amp box -->
+        <!-- Stereo amp -->
         <rect x="0" y="40" width="40" height="40" fill="#ddd"/>
-        <text x="5" y="65" font-size="10px">Amp</text>
-        <!-- Sub crossover -->
+        <text x="5" y="65" font-size="10">Amp</text>
+        <!-- L speaker -->
+        <circle cx="80" cy="60" r="20" stroke="#333" fill="none"/>
+        <text x="70" y="95" font-size="10">L</text>
+        <line x1="40" y1="60" x2="60" y2="60" stroke="#007acc" stroke-width="2"/>
+        <!-- R speaker -->
+        <circle cx="160" cy="60" r="20" stroke="#333" fill="none"/>
+        <text x="150" y="95" font-size="10">R</text>
+        <line x1="100" y1="60" x2="140" y2="60" stroke="#007acc" stroke-width="2"/>
+        <!-- Crossover network -->
         <line x1="200" y1="60" x2="240" y2="60" stroke="#000" stroke-width="2"/>
         <line x1="240" y1="60" x2="260" y2="40" stroke="#000" stroke-width="2"/>
         <line x1="240" y1="60" x2="260" y2="80" stroke="#000" stroke-width="2"/>
-        <text x="260" y="35" font-size="10px">L</text>
-        <text x="260" y="105" font-size="10px">C</text>
+        <text x="265" y="35" font-size="10">L</text>
+        <text x="265" y="105" font-size="10">C</text>
+        <!-- Subwoofer -->
         <circle cx="300" cy="60" r="20" stroke="#333" fill="none"/>
-        <text x="285" y="95" font-size="10px">Sub</text>
+        <text x="285" y="95" font-size="10">Sub</text>
       </svg>
-      <p>Components:</p>
       <ul>
         <li>Inductor L: 1.0 mH</li>
         <li>Capacitor C: 100 µF</li>
       </ul>
-      <p>Quick steps:</p>
       <ol>
-        <li>Wire L/R to amplifier outputs.</li>
-        <li>Tap amp output to LC network.</li>
-        <li>Route low-pass branch to subwoofer.</li>
+        <li>Wire L/R to amp outputs.</li>
+        <li>Tap output into LC network.</li>
+        <li>Route low-pass branch to sub.</li>
       </ol>
     </section>
 
     <!-- MODE 4.0 -->
     <section id="mode-4.0">
-      <h2>Mode 4.0 (Quad Speakers Correction)</h2>
-      <p>Four speakers in series–parallel for 8 Ω total. Corrected polarities and channel labels.</p>
+      <h2>Mode 4.0 (Quad Speakers)</h2>
+      <p>Four speakers arranged in series–parallel for an 8 Ω total load. Polarities and channel labels corrected.</p>
       <svg width="400" height="200" role="img" aria-label="4.0 quad speaker wiring corrected">
         <title>4.0 Wiring (2×2 Series–Parallel)</title>
         <!-- Amp L -->
         <rect x="0" y="80" width="40" height="40" fill="#ddd"/>
-        <text x="5" y="105" font-size="10px">Amp L</text>
-        <!-- Top left -->
-        <circle cx="80" cy="60" r="20" stroke="#333" fill="none"/>
-        <text x="70" y="100" font-size="10px">L1+</text>
-        <circle cx="150" cy="60" r="20" stroke="#333" fill="none"/>
-        <text x="140" y="100" font-size="10px">L2–</text>
-        <!-- Bottom left -->
-        <circle cx="80" cy="140" r="20" stroke="#333" fill="none"/>
-        <text x="70" y="180" font-size="10px">L3+</text>
-        <circle cx="150" cy="140" r="20" stroke="#333" fill="none"/>
-        <text x="140" y="180" font-size="10px">L4–</text>
-        <!-- Connections -->
+        <text x="5" y="105" font-size="10">Amp L</text>
+        <!-- Speakers -->
+        <circle cx="80" cy="60" r="20" stroke="#333" fill="none"/><text x="65" y="100" font-size="10">L1+</text>
+        <circle cx="150" cy="60" r="20" stroke="#333" fill="none"/><text x="135" y="100" font-size="10">L2–</text>
+        <circle cx="80" cy="140" r="20" stroke="#333" fill="none"/><text x="65" y="180" font-size="10">L3+</text>
+        <circle cx="150" cy="140" r="20" stroke="#333" fill="none"/><text x="135" y="180" font-size="10">L4–</text>
+        <!-- Wiring -->
         <line x1="40" y1="100" x2="60" y2="100" stroke="#007acc" stroke-width="2"/>
         <line x1="100" y1="60" x2="130" y2="60" stroke="#007acc" stroke-width="2"/>
-        <line x1="100" y1="140" x2="130" y2="140" stroke="#007acc" stroke-width="2"/>
         <line x1="170" y1="60" x2="170" y2="140" stroke="#007acc" stroke-width="2"/>
+        <line x1="100" y1="140" x2="130" y2="140" stroke="#007acc" stroke-width="2"/>
         <line x1="40" y1="140" x2="60" y2="140" stroke="#007acc" stroke-width="2"/>
       </svg>
-      <p>Series–parallel ensures each channel sees 8 Ω total.</p>
+      <p>Resulting load: 8 Ω per channel.</p>
     </section>
 
     <!-- MODE 5.0 -->
     <section id="mode-5.0">
-      <h2>Mode 5.0 (Surround 5.0 Correction)</h2>
-      <p>Five identical speakers, no sub. Added missing center wiring and labels.</p>
+      <h2>Mode 5.0 (Surround)</h2>
+      <p>Five identical speakers, no subwoofer. Center wiring and labels have been added.</p>
       <svg width="450" height="220" role="img" aria-label="5.0 surround wiring corrected">
         <title>5.0 Wiring (Front, Center, Rear)</title>
-        <!-- Amp outputs -->
-        <rect x="0" y="90" width="40" height="40" fill="#ddd"/><text x="5" y="115" font-size="10px">Amp F L</text>
-        <rect x="0" y="140" width="40" height="40" fill="#ddd"/><text x="5" y="165" font-size="10px">Amp C</text>
-        <rect x="0" y="190" width="40" height="40" fill="#ddd"/><text x="5" y="215" font-size="10px">Amp F R</text>
+        <!-- Amps -->
+        <rect x="0" y="90" width="40" height="40" fill="#ddd"/><text x="5" y="115" font-size="10">Amp FL</text>
+        <rect x="0" y="140" width="40" height="40" fill="#ddd"/><text x="5" y="165" font-size="10">Amp C</text>
+        <rect x="0" y="190" width="40" height="40" fill="#ddd"/><text x="5" y="215" font-size="10">Amp FR</text>
         <!-- Speakers -->
-        <circle cx="120" cy="60" r="20" stroke="#333" fill="none"/><text x="110" y="95" font-size="10px">FL</text>
-        <circle cx="220" cy="60" r="20" stroke="#333" fill="none"/><text x="210" y="95" font-size="10px">FR</text>
-        <circle cx="170" cy="120" r="20" stroke="#333" fill="none"/><text x="160" y="155" font-size="10px">C</text>
-        <circle cx="120" cy="180" r="20" stroke="#333" fill="none"/><text x="110" y="215" font-size="10px">RL</text>
-        <circle cx="220" cy="180" r="20" stroke="#333" fill="none"/><text x="210" y="215" font-size="10px">RR</text>
-        <!-- Connections -->
+        <circle cx="120" cy="60" r="20" stroke="#333" fill="none"/><text x="110" y="95" font-size="10">FL</text>
+        <circle cx="220" cy="60" r="20" stroke="#333" fill="none"/><text x="210" y="95" font-size="10">FR</text>
+        <circle cx="170" cy="120" r="20" stroke="#333" fill="none"/><text x="160" y="155" font-size="10">C</text>
+        <circle cx="120" cy="180" r="20" stroke="#333" fill="none"/><text x="110" y="215" font-size="10">RL</text>
+        <circle cx="220" cy="180" r="20" stroke="#333" fill="none"/><text x="210" y="215" font-size="10">RR</text>
+        <!-- Wiring -->
         <line x1="40" y1="110" x2="100" y2="60" stroke="#007acc" stroke-width="2"/>
-        <line x1="40" y1="160" x2="100" y2="120" stroke="#007acc" stroke-width="2"/>
+        <line x1="40" y1="160" x2="150" y2="120" stroke="#007acc" stroke-width="2"/>
         <line x1="40" y1="210" x2="100" y2="180" stroke="#007acc" stroke-width="2"/>
-        <line x1="100" y1="120" x2="150" y2="120" stroke="#007acc" stroke-width="2"/>
       </svg>
-      <p>Each speaker sees 8 Ω. Center output is now wired correctly.</p>
+      <p>Each speaker sees 8 Ω load.</p>
     </section>
 
     <!-- MODE 5.1 -->
     <section id="mode-5.1">
       <h2>Mode 5.1 (Surround + Subwoofer)</h2>
-      <p>Full 5.1 layout: six channels with dedicated subwoofer line.</p>
-      <svg width="500" height="260" role="img" aria-label="5.1 surround plus subwoofer wiring">
+      <p>Six channels: front left/right, center, rear left/right, plus subwoofer.</p>
+      <svg width="500" height="300" role="img" aria-label="5.1 surround plus subwoofer wiring">
         <title>5.1 Wiring Diagram</title>
-        <!-- Amp outputs -->
-        <g fill="#ddd" font-size="10px">
-          <rect x="0" y="100" width="40" height="40"/><text x="5" y="125">Amp FL</text>
-          <rect x="0" y="150" width="40" height="40"/><text x="5" y="175">Amp C</text>
-          <rect x="0" y="200" width="40" height="40"/><text x="5" y="225">Amp FR</text>
-          <rect x="0" y="250" width="40" height="40"/><text x="5" y="275">Amp RL</text>
-          <rect x="0" y="300" width="40" height="40"/><text x="5" y="325">Amp RR</text>
-          <rect x="0" y="350" width="40" height="40"/><text x="5" y="375">Amp Sub</text>
+        <!-- Amps -->
+        <g fill="#ddd" font-size="10">
+          <rect x="0" y="90" width="40" height="40"/><text x="5" y="115">Amp FL</text>
+          <rect x="0" y="140" width="40" height="40"/><text x="5" y="165">Amp C</text>
+          <rect x="0" y="190" width="40" height="40"/><text x="5" y="215">Amp FR</text>
+          <rect x="0" y="240" width="40" height="40"/><text x="5" y="265">Amp RL</text>
+          <rect x="0" y="290" width="40" height="40"/><text x="5" y="315">Amp RR</text>
+          <rect x="0" y="340" width="40" height="40"/><text x="5" y="365">Amp Sub</text>
         </g>
-        <!-- Speakers & Sub -->
+        <!-- Speakers -->
         <g stroke="#333" fill="none">
-          <circle cx="140" cy="60" r="20"/><text x="130" y="95" font-size="10px">FL</text>
-          <circle cx="240" cy="60" r="20"/><text x="230" y="95" font-size="10px">FR</text>
-          <circle cx="190" cy="130" r="20"/><text x="180" y="165" font-size="10px">C</text>
-          <circle cx="140" cy="200" r="20"/><text x="130" y="235" font-size="10px">RL</text>
-          <circle cx="240" cy="200" r="20"/><text x="230" y="235" font-size="10px">RR</text>
-          <rect x="190" y="250" width="40" height="40" fill="none"/><text x="185" y="295" font-size="10px">Sub</text>
+          <circle cx="140" cy="60" r="20"/><text x="130" y="95" font-size="10">FL</text>
+          <circle cx="240" cy="60" r="20"/><text x="230" y="95" font-size="10">FR</text>
+          <circle cx="190" cy="130" r="20"/><text x="180" y="165" font-size="10">C</text>
+          <circle cx="140" cy="200" r="20"/><text x="130" y="235" font-size="10">RL</text>
+          <circle cx="240" cy="200" r="20"/><text x="230" y="235" font-size="10">RR</text>
+          <rect x="190" y="250" width="40" height="40" fill="none"/><text x="185" y="295" font-size="10">Sub</text>
         </g>
-        <!-- Connections colored -->
-        <line x1="40" y1="120" x2="120" y2="60" stroke="#007acc" stroke-width="2"/>
-        <line x1="40" y1="170" x2="180" y2="130" stroke="#e91e63" stroke-width="2"/>
-        <line x1="40" y1="220" x2="120" y2="200" stroke="#4caf50" stroke-width="2"/>
-        <line x1="40" y1="270" x2="120" y2="300" stroke="#ff9800" stroke-width="2"/>
-        <line x1="40" y1="320" x2="120" y2="340" stroke="#9c27b0" stroke-width="2"/>
+        <!-- Wiring -->
+        <line x1="40" y1="110" x2="120" y2="60" stroke="#007acc" stroke-width="2"/>
+        <line x1="40" y1="160" x2="180" y2="130" stroke="#e91e63" stroke-width="2"/>
+        <line x1="40" y1="210" x2="120" y2="200" stroke="#4caf50" stroke-width="2"/>
+        <line x1="40" y1="260" x2="120" y2="300" stroke="#ff9800" stroke-width="2"/>
+        <line x1="40" y1="310" x2="120" y2="340" stroke="#9c27b0" stroke-width="2"/>
       </svg>
-      <p>Use a dedicated subwoofer amp output or a passive crossover.</p>
+      <p>Use a dedicated subwoofer amp or passive crossover on the Sub channel.</p>
     </section>
 
     <!-- QUICK TIPS -->
     <aside id="quick-tips" class="quick-tips">
       <h2>Quick Tips for Neophytes</h2>
       <ul>
-        <li>Always match speaker impedance to your amplifier’s spec.</li>
-        <li>Identify “+” and “–” poles by color or markings.</li>
-        <li>Avoid paralleling more than two speakers on one channel.</li>
-        <li>Use ferrite beads on cables to reduce EMI.</li>
+        <li>Match speaker impedance to your amplifier’s specified range.</li>
+        <li>Identify “+” and “–” poles by color coding or markings.</li>
+        <li>Avoid paralleling more than two speakers on a single channel.</li>
+        <li>Use ferrite beads to reduce cable EMI.</li>
       </ul>
     </aside>
 
@@ -201,12 +207,12 @@
     <section id="faq">
       <h2>FAQ</h2>
       <dl>
-        <dt>Q: What is impedance?</dt>
-        <dd>A: Electrical resistance (Ω) seen by your amplifier.</dd>
-        <dt>Q: Can I mix different speaker impedances?</dt>
-        <dd>A: It’s not recommended—stick to identical ohm ratings.</dd>
-        <dt>Q: Do I need a special amp for bridged mode?</dt>
-        <dd>A: Yes, your amplifier must support bridge output.</dd>
+        <dt>What is impedance?</dt>
+        <dd>Opposition to AC current, measured in ohms (Ω).</dd>
+        <dt>Can I mix speaker impedances?</dt>
+        <dd>It’s not recommended—use identical speaker ratings for predictable results.</dd>
+        <dt>What is bridged mode?</dt>
+        <dd>Two amp channels drive one speaker for higher voltage swing; only one speaker supported.</dd>
       </dl>
     </section>
 
@@ -215,14 +221,43 @@
       <h2>Glossary</h2>
       <dl>
         <dt>Impedance (Ω)</dt>
-        <dd>Opposition to AC current, combining resistance, inductance, and capacitance.</dd>
+        <dd>Combination of resistance, inductance, and capacitance in AC circuits.</dd>
         <dt>Ohm</dt>
-        <dd>Unit of electrical resistance (Ω). A 1 Ω resistor allows 1 A at 1 V.</dd>
+        <dd>Unit of electrical resistance. A 1 Ω resistor allows 1 A at 1 V.</dd>
         <dt>Crossover</dt>
-        <dd>Filter network (L/C) that splits audio frequencies between drivers.</dd>
+        <dd>Network of inductors and capacitors that splits audio frequencies between drivers.</dd>
         <dt>Bridge</dt>
-        <dd>Wiring mode where amplifier outputs are paralleled for higher voltage swing.</dd>
+        <dd>Wiring an amplifier so its outputs are driven out of phase for doubled voltage swing.</dd>
       </dl>
+    </section>
+
+    <!-- CALCULATOR -->
+    <section id="calculator">
+      <h2>Interactive Calculator</h2>
+      <form id="calc-form">
+        <label for="mode">Mode</label>
+        <select id="mode" required>
+          <option value="series">Series</option>
+          <option value="parallel">Parallel</option>
+          <option value="bridged">Bridged (1 Speaker)</option>
+          <option value="custom">Custom (Coming Soon)</option>
+        </select>
+
+        <label for="speakers">Number of speakers</label>
+        <input id="speakers" type="number" min="1" step="1" value="2" required />
+
+        <label for="impedance">Impedance per speaker (Ω)</label>
+        <input id="impedance" type="number" min="0.1" step="0.1" value="8" required />
+
+        <label for="voltage">Voltage RMS (V)</label>
+        <input id="voltage" type="number" min="0" step="0.1" value="20" required />
+
+        <button type="submit">Calculate</button>
+      </form>
+
+      <div id="calc-output" aria-live="polite">
+        Enter parameters and click Calculate.
+      </div>
     </section>
   </main>
 
@@ -232,15 +267,65 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Warn if any mode section missing an SVG
       document.querySelectorAll('section[id^="mode-"]').forEach(function(sec) {
         if (!sec.querySelector('svg')) {
           var warn = document.createElement('div');
           warn.className = 'warning';
-          warn.textContent = 'Warning: missing diagram for ' + sec.id;
+          warn.textContent = 'Warning: diagram missing for ' + sec.id;
           sec.insertBefore(warn, sec.firstChild);
         }
       });
+
+      // Calculator logic
+      const form = document.getElementById('calc-form');
+      const output = document.getElementById('calc-output');
+
+      function calcSeries(n, R) {
+        return n * R;
+      }
+      function calcParallel(n, R) {
+        return 1 / (n * (1 / R));
+      }
+      function calcPower(V, Z) {
+        return (V * V) / Z;
+      }
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const mode = form.mode.value;
+        const n    = parseInt(form.speakers.value, 10);
+        const R    = parseFloat(form.impedance.value);
+        const V    = parseFloat(form.voltage.value);
+
+        let Z, note = '';
+
+        if (mode === 'series') {
+          Z = calcSeries(n, R);
+        } else if (mode === 'parallel') {
+          Z = calcParallel(n, R);
+        } else if (mode === 'bridged') {
+          if (n !== 1) {
+            note = 'Bridged mode supports exactly one speaker. Using single-speaker impedance.';
+          }
+          Z = R;
+        } else {
+          output.innerHTML = '<p>Custom mode coming soon.</p>';
+          return;
+        }
+
+        const Ptot = calcPower(V, Z);
+        const Pspk = Ptot / (mode === 'bridged' ? 1 : n);
+
+        output.innerHTML = `
+          <p>Resulting impedance: <strong>${Z.toFixed(2)} Ω</strong></p>
+          <p>Total power at ${V} V<sub>rms</sub>: <strong>${Ptot.toFixed(1)} W</strong></p>
+          <p>Power per speaker: <strong>${Pspk.toFixed(1)} W</strong></p>
+          ${note ? `<p style="color:#900;">${note}</p>` : ''}
+        `;
+      });
     });
   </script>
+
 </body>
 </html>
